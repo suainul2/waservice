@@ -6,4 +6,5 @@ import "waservice/app/models"
 type AuthRepository interface {
 	Login(data *models.User, password string) (*models.User, error)
 	Token(data *models.User) (string, error)
+	Register(d *models.User) (data *models.User, err error)
 }

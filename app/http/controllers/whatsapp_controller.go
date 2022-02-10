@@ -77,7 +77,7 @@ func (s *GenerateController) SendText() fiber.Handler {
 			}
 
 		}
-		return s.ResSuccess(c, "Welcome "+user.Email)
+		return s.ResSuccess(c, "ok")
 	}
 }
 
@@ -103,6 +103,6 @@ func (s *GenerateController) SendImage() fiber.Handler {
 			}
 
 		}
-		return s.ResSuccess(c, "Welcome "+user.Email)
+		return s.ResSuccess(c, "ok")
 	}
 }

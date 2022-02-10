@@ -39,3 +39,9 @@ func (s *AuthRepository) Token(data *models.User) (string, error) {
 	}
 	return t, err
 }
+func (s *AuthRepository) Register(data *models.User) (*models.User, error) {
+	data.Role = 0
+	data.Password = helpers.Bcrypt(data.Password)
+	s.Db.Create(data)
+	return data, nil
+}

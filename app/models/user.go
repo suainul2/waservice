@@ -10,7 +10,6 @@ type User struct {
 	Email    string `json:"email" gorm:"unique" validate:"required,email,isUnique=users"`
 	Password string `json:"password" validate:"required"`
 	Role     int    `json:"role" validate:"numeric"`
-	Token    string `json:"token" gorm:"unique"`
 }
 
 func (u *User) GetRole() map[string]int {

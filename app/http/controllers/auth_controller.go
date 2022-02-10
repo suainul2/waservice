@@ -28,11 +28,11 @@ func NewAuthController(db *gorm.DB) *AuthController {
 
 func (a *AuthController) Login() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		shop := new(models.User)
-		if helpers.ParsingBody(c, shop) {
+		user := new(models.User)
+		if helpers.ParsingBody(c, user) {
 			return a.ResFail(c, "parsing error")
 		}
-		u, err := a.AuthInteractor.Login(shop, shop.Password)
+		u, err := a.AuthInteractor.Login(user, user.Password)
 		if err != nil {
 			return a.ResFail(c, err)
 
@@ -43,5 +43,20 @@ func (a *AuthController) Login() fiber.Handler {
 
 		}
 		return a.ResSuccess(c, t)
+	}
+}
+
+func (a *AuthController) Register() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		user := new(models.User)
+		if helpers.ParsingBody(c, user) {
+			return a.ResFail(c, "parsing error")
+		}
+		u, err := a.AuthInteractor.Register(user)
+		if err != nil {
+			return a.ResFail(c, err)
+
+		}
+		return a.ResSuccess(c, u)
 	}
 }

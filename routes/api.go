@@ -15,7 +15,7 @@ func Api(r fiber.Router) {
 	authController := controllers.NewAuthController(databases.Db)
 
 	r.Post("/login", authController.Login())
-
+	r.Post("/regis", authController.Register())
 	r.Use(jwtware.New(jwtware.Config{
 		SigningKey: []byte(configs.Server.Key),
 	}))
