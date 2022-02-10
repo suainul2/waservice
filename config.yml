@@ -1,0 +1,10 @@
+server:
+  port: :3000
+  appName: WhatsAppService
+  key: sM@rtBiD
+redis:
+  address: localhost:6379
+  password: ~
+  DB: 0
+mysql:
+  address: root:12345678@tcp(127.0.0.1:3306)/dbwa?parseTime=true
