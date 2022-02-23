@@ -2,6 +2,7 @@ package services
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"waservice/databases"
 	"waservice/helpers"
@@ -16,6 +17,13 @@ func (s *GenerateRepository) Resession(id uint) (string, error) {
 	if err != nil {
 		panic(err)
 	}
+	vall, errr := databases.Rdb.Get(databases.Ctx, "go_con_"+newId).Result()
+	if errr != nil {
+		panic(err.Error())
+	}
+	if val == "X" && vall == "X" {
+		return "", errors.New("session fail")
+	}
 	data := whatsapp.Session{}
 	json.Unmarshal([]byte(val), &data)
 	newSess, err := s.Wac.RestoreWithSession(data)
@@ -24,6 +32,14 @@ func (s *GenerateRepository) Resession(id uint) (string, error) {
 			return "ok", nil
 		}
 		fmt.Println("error session " + err.Error())
+		err = s.Rdb.Set(s.Ctx, "go_ses_"+newId, "X", 0).Err()
+		if err != nil {
+			return "", err
+		}
+		err = s.Rdb.Set(s.Ctx, "go_con_"+newId, "X", 0).Err()
+		if err != nil {
+			fmt.Println(err)
+		}
 		return "", err
 	}
 	b, err := json.Marshal(newSess)

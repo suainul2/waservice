@@ -9,7 +9,6 @@ import (
 
 func Handle() {
 	config.WithOptions(config.ParseEnv)
-	// add driver for support yaml content
 	config.AddDriver(yaml.Driver)
 	err := config.LoadFiles(helpers.Pwd + "/config.yml")
 	if err != nil {

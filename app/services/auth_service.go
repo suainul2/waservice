@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"time"
 	"waservice/app/models"
 	"waservice/configs"
 	"waservice/helpers"
@@ -28,8 +27,8 @@ func (s *AuthRepository) Token(data *models.User) (string, error) {
 		"name":  data.Name,
 		"id":    data.ID,
 		"admin": data.Role == data.GetRole()["admin"],
-		"exp":   time.Now().Add(time.Hour * 12).Unix(),
 	}
+	// "exp":   time.Now().Add(time.Hour * 12).Unix(),
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 

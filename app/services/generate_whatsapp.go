@@ -22,7 +22,11 @@ func (s *GenerateRepository) Generate(id uint) (string, error) {
 	var qr = make(chan string)
 	var newId string = helpers.UintToStr(id)
 	go func() {
-		err := s.Rdb.Set(s.Ctx, "go_red_"+newId, <-qr, 0).Err()
+		err := s.Rdb.Set(s.Ctx, "go_con_"+newId, "C", 0).Err()
+		if err != nil {
+			fmt.Println(err)
+		}
+		err = s.Rdb.Set(s.Ctx, "go_red_"+newId, <-qr, 0).Err()
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -30,7 +34,11 @@ func (s *GenerateRepository) Generate(id uint) (string, error) {
 	session, err := s.Wac.Login(qr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error during login: %v\n", err)
-		err := s.Rdb.Set(s.Ctx, "go_red_"+newId, "sessionFail", 0).Err()
+		err := s.Rdb.Set(s.Ctx, "go_red_"+newId, "sessionFail ", 0).Err()
+		if err != nil {
+			fmt.Println(err)
+		}
+		err = s.Rdb.Set(s.Ctx, "go_con_"+newId, "X", 0).Err()
 		if err != nil {
 			fmt.Println(err)
 		}

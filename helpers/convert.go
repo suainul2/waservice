@@ -5,3 +5,8 @@ import "strconv"
 func UintToStr(n uint) string {
 	return strconv.FormatUint(uint64(n), 10)
 }
+
+func StrToInt(s string) int {
+	d, _ := strconv.Atoi(s)
+	return d
+}

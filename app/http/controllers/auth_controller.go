@@ -15,7 +15,6 @@ type AuthController struct {
 	controller
 }
 
-// NewUserController returns the resource of users.
 func NewAuthController(db *gorm.DB) *AuthController {
 	return &AuthController{
 		AuthInteractor: usecases.AuthInteractor{

@@ -22,7 +22,9 @@ func Api(r fiber.Router) {
 	r.Use(middleware.JwtAuth().JwtHandle())
 	r.Get("/connect", generateController.Generate())
 	r.Get("/live", generateController.Live())
-	r.Post("/send/text/*", generateController.SendText())
-	r.Post("/send/image/*", generateController.SendImage())
+	r.Post("/send/text", generateController.SendText())
+	r.Post("/send/image", generateController.SendImage())
+	r.Post("/send/images/:x", generateController.SendImageX())
+	r.Post("/send/texts/:x", generateController.SendTextX())
 
 }

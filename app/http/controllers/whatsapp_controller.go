@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"strings"
 	"time"
 	"waservice/app/models"
 	"waservice/app/services"
@@ -50,7 +49,7 @@ func (s *GenerateController) Live() fiber.Handler {
 		user := c.Locals("auth").(*models.User)
 		val, err := databases.Rdb.Get(databases.Ctx, "go_red_"+helpers.UintToStr(user.ID)).Result()
 		if err != nil {
-			panic(err)
+			panic(err.Error())
 		}
 		return s.ResSuccess(c, val)
 	}
@@ -59,17 +58,17 @@ func (s *GenerateController) Live() fiber.Handler {
 func (s *GenerateController) SendText() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		user := c.Locals("auth").(*models.User)
-		arr := strings.Split(c.Params("*"), "/")
 		txt := struct {
-			Message string `json:"message"`
+			Message string   `json:"message"`
+			Target  []string `json:"target"`
 		}{}
 		if helpers.ParsingBody(c, &txt) {
 			return s.ResFail(c, "parsing error")
 		}
+		arr := txt.Target
 		_, err := s.GenerateInteractor.Resession(user.ID)
 		if err != nil {
-			return s.ResFail(c, err)
-
+			return s.ResFail(c, err.Error())
 		}
 		if len(arr) > 0 {
 			for _, element := range arr {
@@ -84,14 +83,15 @@ func (s *GenerateController) SendText() fiber.Handler {
 func (s *GenerateController) SendImage() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		user := c.Locals("auth").(*models.User)
-		arr := strings.Split(c.Params("*"), "/")
 		txt := struct {
-			ImageUrl string `json:"imgUrl"`
-			Message  string `json:"message"`
+			ImageUrl string   `json:"imgUrl"`
+			Message  string   `json:"message"`
+			Target   []string `json:"target"`
 		}{}
 		if helpers.ParsingBody(c, &txt) {
 			return s.ResFail(c, "parsing error")
 		}
+		arr := txt.Target
 		_, err := s.GenerateInteractor.Resession(user.ID)
 		if err != nil {
 			return s.ResFail(c, err.Error())
@@ -102,6 +102,63 @@ func (s *GenerateController) SendImage() fiber.Handler {
 				s.GenerateInteractor.SendImage(element, txt.ImageUrl, txt.Message, user.ID)
 			}
 
+		}
+		return s.ResSuccess(c, "ok")
+	}
+}
+
+func (s *GenerateController) SendImageX() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		user := c.Locals("auth").(*models.User)
+		txt := struct {
+			ImageUrl string   `json:"imgUrl"`
+			Message  string   `json:"message"`
+			Target   []string `json:"target"`
+		}{}
+		if helpers.ParsingBody(c, &txt) {
+			return s.ResFail(c, "parsing error")
+		}
+		arr := txt.Target
+		_, err := s.GenerateInteractor.Resession(user.ID)
+		if err != nil {
+			return s.ResFail(c, err.Error())
+
+		}
+		if len(arr) > 0 {
+			u := helpers.StrToInt(c.Params("x"))
+			for i := 0; i < u; i++ {
+				for _, element := range arr {
+					s.GenerateInteractor.SendImage(element, txt.ImageUrl, txt.Message, user.ID)
+				}
+			}
+		}
+		return s.ResSuccess(c, "ok")
+	}
+}
+
+func (s *GenerateController) SendTextX() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		user := c.Locals("auth").(*models.User)
+		txt := struct {
+			Message string   `json:"message"`
+			Target  []string `json:"target"`
+		}{}
+		if helpers.ParsingBody(c, &txt) {
+			return s.ResFail(c, "parsing error")
+		}
+		arr := txt.Target
+		_, err := s.GenerateInteractor.Resession(user.ID)
+		if err != nil {
+			return s.ResFail(c, err.Error())
+
+		}
+		if len(arr) > 0 {
+			u := helpers.StrToInt(c.Params("x"))
+			for i := 0; i < u; i++ {
+				for _, element := range arr {
+					s.GenerateInteractor.SendMessage(element, txt.Message, user.ID)
+				}
+			}
 		}
 		return s.ResSuccess(c, "ok")
 	}
