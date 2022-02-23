@@ -51,6 +51,13 @@ func (s *GenerateController) Live() fiber.Handler {
 		if err != nil {
 			panic(err.Error())
 		}
+		handleErrConnection, err := databases.Rdb.Get(databases.Ctx, "go_con_"+helpers.UintToStr(user.ID)).Result()
+		if err != nil {
+			panic(err.Error())
+		}
+		if handleErrConnection == "C" {
+			return s.ResSuccess(c, "ok")
+		}
 		return s.ResSuccess(c, val)
 	}
 }
