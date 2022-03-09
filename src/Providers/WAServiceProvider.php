@@ -34,17 +34,7 @@ class WAServiceProvider extends ServiceProvider
             return new WAService;
         });
     }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['WAService'];
-    }
-
+    
     /**
      * Console-specific booting.
      *

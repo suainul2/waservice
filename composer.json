@@ -1,5 +1,5 @@
 {
-    "name": "suainul/waservice",
+    "name": "suainul2/waservice",
     "description": "connect to WA service",
     "license": "MIT",
     "autoload": {
@@ -20,7 +20,7 @@
                 "Suainul\\Waservice\\Providers\\WAServiceProvider"
             ],
             "aliases": {
-                "WAService": "Suainul\\Waservice\\Facades\\WAServiceFacade"
+                "WaService": "Suainul\\Waservice\\Facades\\WAServiceFacade"
             }
         }
     }
