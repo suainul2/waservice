@@ -27,7 +27,7 @@ class WAServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/waservice.php', 'waservice');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/waservice.php', 'waservice');
 
         // Register the service the package provides.
         $this->app->singleton('waservice', function ($app) {
@@ -54,7 +54,7 @@ class WAServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            __DIR__ . '/../config/waservice.php' => config_path('waservice.php'),
+            __DIR__ . '/../../config/waservice.php' => config_path('waservice.php'),
         ], 'waservice.config');
     }
 }
