@@ -1,0 +1,27 @@
+{
+    "name": "suainul/waservice",
+    "description": "connect to WA service",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Suainul\\Waservice\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "suainul2",
+            "email": "suainulovi@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Suainul\\Waservice\\Providers\\WAServiceProvider"
+            ],
+            "aliases": {
+                "WAService": "Suainul\\Waservice\\Facades\\WAServiceFacade"
+            }
+        }
+    }
+}
