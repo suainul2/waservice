@@ -1,9 +1,6 @@
 <?php
 
 namespace Suainul\Waservice;
-
-use GuzzleHttp\Client;
-
 class WAService
 {
     public function SendText()
