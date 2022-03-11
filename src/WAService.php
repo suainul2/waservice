@@ -11,4 +11,8 @@ class WAService
     {
         return new SendImage;
     }
+    public function Generate()
+    {
+        return new ApiRequest;
+    }
 }
