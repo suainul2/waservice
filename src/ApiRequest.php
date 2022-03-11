@@ -15,11 +15,11 @@ class ApiRequest
     }
     public function connect()
     {
-        return $this->requestApi("GET","api/connect");
+        return $this->requestApi("GET","connect");
     }
     public function getLive()
     {
-        return $this->requestApi("GET","api/live");
+        return $this->requestApi("GET","live");
     }
     protected function requestApi($method,$endpoint,$params = [])
     {
