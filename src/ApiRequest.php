@@ -31,7 +31,7 @@ class ApiRequest
                     'Content-Type' => 'application/json'
                 ],
                 'connect_timeout' => 5,
-                'body' => $params
+                'json' => $params
             ]);
 
             if ($response->getStatusCode() === 200) {
