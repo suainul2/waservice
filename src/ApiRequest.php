@@ -35,7 +35,7 @@ class ApiRequest
             ]);
 
             if ($response->getStatusCode() === 200) {
-                return $response->getBody();
+                return json_decode($response->getBody()->getContents());
             }
         } catch (\Exception $exception){
             return $exception->getMessage();
