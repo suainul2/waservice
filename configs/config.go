@@ -17,5 +17,4 @@ func Handle() {
 	config.BindStruct("server", &Server)
 	config.BindStruct("redis", &Redis)
 	config.BindStruct("mysql", &Mysql)
-
 }

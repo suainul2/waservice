@@ -1,51 +1,34 @@
 package services
 
 import (
-	"encoding/json"
-	"errors"
 	"fmt"
-	"waservice/databases"
 	"waservice/helpers"
-
-	whatsapp "github.com/Rhymen/go-whatsapp"
 )
 
-func (s *GenerateRepository) Resession(id uint) (string, error) {
+func (s *GenerateRepository) Resession(waUser *helpers.DataWAUser) (string, error) {
 	s.Wac.SetClientVersion(3, 2123, 7)
-	var newId string = helpers.UintToStr(id)
-	dataSession, err := databases.Rdb.Get(databases.Ctx, "go_ses_"+newId).Result()
-	if err != nil {
-		panic(err.Error())
-	}
-	handleErrConnection, err := databases.Rdb.Get(databases.Ctx, "go_con_"+newId).Result()
-	if err != nil {
-		panic(err.Error())
-	}
-	if handleErrConnection == "X" {
-		return "", errors.New("session fail")
-	}
-	data := whatsapp.Session{}
-	json.Unmarshal([]byte(dataSession), &data)
-	newSess, err := s.Wac.RestoreWithSession(data)
+	newSess, err := s.Wac.RestoreWithSession(waUser.Session)
 	if err != nil {
 		if err.Error() == "already logged in" {
 			return "ok", nil
 		}
-		fmt.Println("error session " + err.Error())
+		if err.Error() == "restore session connection timed out" {
+			waUser.Msg = "WA anda Offline"
+			return "", err
 
-		err = s.Rdb.Set(s.Ctx, "go_con_"+newId, "X", 0).Err()
-		if err != nil {
+		}
+		fmt.Println("error session " + err.Error())
+		waUser.Msg = err.Error()
+		waUser.Status = StatusOffline
+		errr := s.Rdb.Set(s.Ctx, "go_wa_user_"+waUser.UserId, helpers.ObToSTring(waUser), 0).Err()
+		if errr != nil {
 			fmt.Println(err)
 		}
 		return "", err
 	}
-
-	b, err := json.Marshal(newSess)
-	if err != nil {
-		fmt.Println(err)
-		return "", err
-	}
-	err = s.Rdb.Set(s.Ctx, "go_ses_"+newId, string(b), 0).Err()
+	waUser.Session = newSess
+	waUser.Status = StatusAktif
+	err = s.Rdb.Set(s.Ctx, "go_wa_user_"+waUser.UserId, helpers.ObToSTring(waUser), 0).Err()
 	if err != nil {
 		return "", err
 	}

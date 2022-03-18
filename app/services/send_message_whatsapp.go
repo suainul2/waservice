@@ -7,7 +7,7 @@ import (
 )
 
 // 6282334976825
-func (s *GenerateRepository) SendMessage(no string, txt string, id uint) error {
+func (s *GenerateRepository) SendMessage(no string, txt string) error {
 	s.Wac.SetClientVersion(3, 2123, 7)
 	text := whatsapp.TextMessage{
 		Info: whatsapp.MessageInfo{

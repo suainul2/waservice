@@ -8,10 +8,9 @@ import (
 )
 
 // 6282334976825
-func (s *GenerateRepository) SendImage(no string, imgUrl string, txt string, id uint) error {
+func (s *GenerateRepository) SendImage(no string, imgUrl string, txt string) error {
 	s.Wac.SetClientVersion(3, 2123, 7)
 	image, err := helpers.DownloadMediaFromURL(imgUrl)
-	fmt.Println(imgUrl)
 	if err != nil {
 		return err
 	}

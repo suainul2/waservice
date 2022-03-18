@@ -1,10 +1,12 @@
 package routes
 
 import (
+	"fmt"
 	"waservice/app/http/controllers"
 	"waservice/app/http/middleware"
 	"waservice/configs"
 	"waservice/databases"
+	"waservice/helpers"
 
 	"github.com/gofiber/fiber/v2"
 	jwtware "github.com/gofiber/jwt/v3"
@@ -26,5 +28,8 @@ func Api(r fiber.Router) {
 	r.Post("/send/image", generateController.SendImage())
 	r.Post("/send/images/:x", generateController.SendImageX())
 	r.Post("/send/texts/:x", generateController.SendTextX())
-
+	err := databases.Rdb.Set(databases.Ctx, "go_wa_", string(helpers.ObToSTring(map[string]interface{}{"suainul": 2})), 0).Err()
+	if err != nil {
+		fmt.Println(err)
+	}
 }

@@ -3,7 +3,6 @@ module waservice
 go 1.17
 
 require (
-	github.com/Rhymen/go-whatsapp v0.1.1
 	github.com/go-redis/redis/v8 v8.11.4
 	github.com/gofiber/fiber/v2 v2.26.0
 	github.com/gofiber/jwt/v3 v3.2.4
@@ -15,6 +14,7 @@ require (
 )
 
 require (
+	github.com/Rhymen/go-whatsapp v0.1.2-0.20220119124930-0f2ecc23a556 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
